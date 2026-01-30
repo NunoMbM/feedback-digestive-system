@@ -1,0 +1,79 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "feedback-digestive-system",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-04",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // 1. D1 Database (The Memory)
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "feedback-db",
+      "database_id": "2d95c417-84af-47b8-bb9a-be76305d803b" 
+    }
+  ],
+
+  // 2. Workers AI (The Brain)
+  "ai": {
+    "binding": "AI"
+  },
+
+  // 3. Vectorize (The Context/Search)
+  "vectorize": [
+    {
+      "binding": "VECTOR_INDEX",
+      "index_name": "feedback-index"
+    }
+  ],
+
+  // 4. Workflows (The Logic Processors)
+  "workflows": [
+    {
+      "name": "ingest-feedback",
+      "binding": "INGEST_WORKFLOW",
+      "class_name": "IngestWorkflow"
+    }
+  ],
+
+  // 5. Cron Trigger (Runs daily at 9 AM UTC)
+  "triggers": {
+    "crons": ["0 9 * * *"]
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
+	/**
+	 * Smart Placement
+	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+	 */
+	// "placement": {  "mode": "smart" }
+	/**
+	 * Bindings
+	 * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
+	 * databases, object storage, AI inference, real-time communication and more.
+	 * https://developers.cloudflare.com/workers/runtime-apis/bindings/
+	 */
+	/**
+	 * Environment Variables
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+	 * Note: Use secrets to store sensitive data.
+	 * https://developers.cloudflare.com/workers/configuration/secrets/
+	 */
+	// "vars": {  "MY_VARIABLE": "production_value" }
+	/**
+	 * Static Assets
+	 * https://developers.cloudflare.com/workers/static-assets/binding/
+	 */
+	// "assets": {  "directory": "./public/",  "binding": "ASSETS" }
+	/**
+	 * Service Bindings (communicate between multiple Workers)
+	 * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+	 */
+	// "services": [  {   "binding": "MY_SERVICE",   "service": "my-service"  } ]
