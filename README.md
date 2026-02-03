@@ -12,7 +12,7 @@ This project uses four Cloudflare technologies:
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 ### 1.  Ingestion 
 * Accepts feedback via a simple REST API (`POST /`).
